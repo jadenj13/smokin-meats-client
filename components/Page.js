@@ -4,13 +4,11 @@ import Header from './Header';
 import Meta from './Meta';
 
 const theme = {
-  red: '#FF0000',
   black: '#393939',
-  grey: '#3A3A3A',
-  lightgrey: '#E1E1E1',
   offWhite: '#EDEDED',
+  grey: '#999999',
   maxWidth: '1000px',
-  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
+  boxShadow: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
 };
 
 const StyledPage = styled.div`
@@ -25,23 +23,23 @@ const Inner = styled.div`
 `;
 
 const GlobalStyle = createGlobalStyle`
-html {
-  box-sizing: border-box;
-  font-size: 10px;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-body {
-  padding: 0;
-  margin: 0;
-  font-size: 1.5rem;
-  line-height: 2;
-}
-a {
-  text-decoration: none;
-  color: ${theme.black};
-}
+  html {
+    box-sizing: border-box;
+    font-size: 10px;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  body {
+    padding: 0;
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.black};
+  }
 `;
 
 class Page extends Component {

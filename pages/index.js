@@ -1,5 +1,9 @@
-import React from 'react';
+import Login from '../components/Signin';
 
-const Home = () => <div>Home</div>;
+const Home = () => (
+  <div>
+    <Login />
+  </div>
+);
 
 export default Home;
