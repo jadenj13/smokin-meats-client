@@ -1,6 +1,9 @@
 import App, { Container } from 'next/app';
+import Head from 'next/head';
 import { ApolloProvider } from 'react-apollo';
-import Page from '../components/Page';
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from '../lib/theme';
 import withApolloClient from '../lib/with-apollo-client';
 
 class MyApp extends App {
@@ -13,15 +16,27 @@ class MyApp extends App {
     return { pageProps };
   }
 
+  componentDidMount() {
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+
   render() {
     const { Component, apolloClient, pageProps } = this.props;
 
     return (
       <Container>
+        <Head>
+          <link rel="shortcut icon" href="/static/favicon.png" />
+          <title>Smokin Meats</title>
+        </Head>
         <ApolloProvider client={apolloClient}>
-          <Page>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
             <Component {...pageProps} />
-          </Page>
+          </ThemeProvider>
         </ApolloProvider>
       </Container>
     );

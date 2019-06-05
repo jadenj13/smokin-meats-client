@@ -1,8 +1,8 @@
-import Login from '../components/Signin';
+import SignIn from '../components/SignIn';
 
 const Home = () => (
   <div>
-    <Login />
+    <SignIn />
   </div>
 );
 
