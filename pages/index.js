@@ -1,9 +1,3 @@
-import SignIn from '../components/SignIn';
-
-const Home = () => (
-  <div>
-    <SignIn />
-  </div>
-);
+const Home = () => <div>Home</div>;
 
 export default Home;

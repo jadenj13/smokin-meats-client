@@ -8,45 +8,54 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($username: String!, $password: String!) {
     signIn(input: { username: $username, password: $password }) {
+      id
       username
+      role
     }
   }
 `;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
-    width: '90vw',
-    maxWidth: 550,
-    padding: 40,
+    padding: theme.spacing(4),
   },
   cardContent: {
-    padding: 0,
+    padding: theme.spacing(0),
   },
   button: {
     marginLeft: 'auto',
-    marginTop: 10,
+    marginTop: theme.spacing(2),
   },
-});
+}));
 
 function SignIn() {
   const classes = useStyles();
-  const [values, setValues] = useState({
+  const [inputs, setInputs] = useState({
     username: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
+    setInputs({ ...inputs, [name]: event.target.value });
+  };
+
+  const handleShowPassword = event => {
+    setShowPassword(!showPassword);
   };
 
   return (
-    <Mutation mutation={SIGNIN_MUTATION} variables={values}>
+    <Mutation mutation={SIGNIN_MUTATION} variables={inputs}>
       {(signIn, { loading, error }) => (
-        <Card className={classes.card}>
+        <Card className={classes.card} raised>
           {loading ? (
             <div>Loading...</div>
           ) : (
@@ -57,33 +66,58 @@ function SignIn() {
                 className={classes.cardContent}
               />
               <CardContent className={classes.cardContent}>
-                <TextField
-                  label="Username"
-                  type="text"
-                  value={values.username}
-                  onChange={handleChange('username')}
-                  margin="normal"
-                  fullWidth
-                />
-                <TextField
-                  label="Password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange('password')}
-                  margin="normal"
-                  fullWidth
-                />
-                <CardActions>
-                  <Button
-                    size="medium"
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick={signIn}
-                  >
-                    Sign In
-                  </Button>
-                </CardActions>
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    console.log('asdf');
+                    signIn();
+                  }}
+                >
+                  <TextField
+                    label="Username"
+                    type="text"
+                    value={inputs.username}
+                    onChange={handleChange('username')}
+                    margin="normal"
+                    fullWidth
+                    InputProps={{ required: true }}
+                  />
+                  <TextField
+                    label="Password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={inputs.password}
+                    onChange={handleChange('password')}
+                    margin="normal"
+                    fullWidth
+                    InputProps={{
+                      required: true,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="Toggle password visibility"
+                            onClick={handleShowPassword}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <CardActions>
+                    <Button
+                      type="submit"
+                      size="medium"
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      disabled={
+                        inputs.username && inputs.password ? false : true
+                      }
+                    >
+                      Sign In
+                    </Button>
+                  </CardActions>
+                </form>
               </CardContent>
             </>
           )}

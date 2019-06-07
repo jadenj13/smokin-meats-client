@@ -7,9 +7,13 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.0.2",
+    "@material-ui/icons": "^4.0.1",
     "@material-ui/styles": "^4.0.2",
     "apollo-boost": "^0.4.0",
     "apollo-client": "^2.6.0",
+    "apollo-link-context": "^1.0.17",
+    "apollo-link-http": "^1.5.14",
+    "cookie": "^0.4.0",
     "dotenv": "^8.0.0",
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.1",
