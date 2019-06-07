@@ -1,16 +1,18 @@
 import App, { Container } from 'next/app';
+import Head from 'next/head';
 import { ApolloProvider } from 'react-apollo';
-import Page from '../components/Page';
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import ComponentContainer from '@material-ui/core/Container';
+import theme from '../lib/theme';
 import withApolloClient from '../lib/with-apollo-client';
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+  componentDidMount() {
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentNode.removeChild(jssStyles);
     }
-    pageProps.query = ctx.query;
-    return { pageProps };
   }
 
   render() {
@@ -18,10 +20,17 @@ class MyApp extends App {
 
     return (
       <Container>
+        <Head>
+          <link rel="shortcut icon" href="/static/favicon.png" />
+          <title>Smokin Meats</title>
+        </Head>
         <ApolloProvider client={apolloClient}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ComponentContainer>
+              <Component {...pageProps} />
+            </ComponentContainer>
+          </ThemeProvider>
         </ApolloProvider>
       </Container>
     );
