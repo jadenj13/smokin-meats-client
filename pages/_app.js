@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import ComponentContainer from '@material-ui/core/Container';
 import theme from '../lib/theme';
 import withApolloClient from '../lib/with-apollo-client';
+import Header from '../components/Header';
 
 class MyApp extends App {
   componentDidMount() {
@@ -27,6 +28,7 @@ class MyApp extends App {
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+            <Header />
             <ComponentContainer>
               <Component {...pageProps} />
             </ComponentContainer>

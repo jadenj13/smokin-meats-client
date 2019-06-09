@@ -37,8 +37,8 @@ const SignInPage = () => {
 };
 
 SignInPage.getInitialProps = async context => {
-  const user = await getCurrentUser(context.apolloClient);
-  if (user) {
+  const res = await getCurrentUser(context.apolloClient);
+  if (res.data.currentUser) {
     return redirect(context, '/');
   }
 
