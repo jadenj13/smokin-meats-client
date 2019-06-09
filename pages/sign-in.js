@@ -8,11 +8,8 @@ const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
-  container: {
-    minHeight: '100vh',
-  },
   item: {
-    marginBottom: '20vh',
+    marginTop: '10vh',
   },
 });
 
@@ -21,13 +18,7 @@ const SignInPage = () => {
 
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        className={classes.container}
-      >
+      <Grid container direction="column" alignItems="center">
         <Grid item xs={12} sm={8} md={6} className={classes.item}>
           <SignIn />
         </Grid>
@@ -38,7 +29,7 @@ const SignInPage = () => {
 
 SignInPage.getInitialProps = async context => {
   const res = await getCurrentUser(context.apolloClient);
-  if (res.data.currentUser) {
+  if (res && res.data && res.data.currentUser) {
     return redirect(context, '/');
   }
 
