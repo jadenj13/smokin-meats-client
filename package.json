@@ -13,6 +13,7 @@
     "apollo-client": "^2.6.0",
     "apollo-link-context": "^1.0.17",
     "apollo-link-http": "^1.5.14",
+    "clsx": "^1.0.4",
     "cookie": "^0.4.0",
     "dotenv": "^8.0.0",
     "graphql": "^14.3.1",

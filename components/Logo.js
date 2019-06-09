@@ -12,14 +12,14 @@ const useStyles = makeStyles({
 
 const Logo = ({ size }) => {
   const classes = useStyles();
-  const width = size === 'lg' ? 200 : size === 'sm' ? 100 : 150;
+  const height = size === 'sm' ? 64 : 80;
 
   return (
     <div className={classes.root}>
       <img
         src="/static/logo.png"
         alt="Let's Get Smokin"
-        width={width}
+        height={height}
         className={classes.img}
       />
     </div>
