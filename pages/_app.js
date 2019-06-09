@@ -22,8 +22,9 @@ class MyApp extends App {
     return (
       <Container>
         <Head>
-          <link rel="shortcut icon" href="/static/favicon.png" />
-          <title>Smokin Meats</title>
+          <link rel="shortcut icon" href="/static/favicon.ico" />
+          <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+          <title>Let's Get Smokin'</title>
         </Head>
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
