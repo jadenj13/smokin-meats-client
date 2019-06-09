@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Router from 'next/router';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +13,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { CURRENT_USER_QUERY } from '../lib/get-current-user';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($username: String!, $password: String!) {
@@ -43,18 +45,48 @@ function SignIn() {
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [signInErrors, setSignInErrors] = useState({
+    username: '',
+    password: '',
+  });
 
-  const handleChange = name => event => {
-    setInputs({ ...inputs, [name]: event.target.value });
+  const handleChange = name => e => {
+    setInputs({ ...inputs, [name]: e.target.value });
+    setSignInErrors({
+      username: '',
+      password: '',
+    });
   };
 
-  const handleShowPassword = event => {
+  const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleSignIn = signIn => async e => {
+    e.preventDefault;
+
+    try {
+      const res = await signIn();
+      if (res.data.signIn && res.data.signIn.id) {
+        Router.push('/');
+      }
+    } catch (error) {
+      setInputs({ ...inputs, password: '' });
+      if (error.message.toLowerCase().includes('user not found')) {
+        setSignInErrors({ ...signInErrors, username: 'Username not found.' });
+      } else if (error.message.toLowerCase().includes('invalid password')) {
+        setSignInErrors({ ...signInErrors, password: 'Invalid password.' });
+      }
+    }
+  };
+
   return (
-    <Mutation mutation={SIGNIN_MUTATION} variables={inputs}>
-      {(signIn, { loading, error }) => (
+    <Mutation
+      mutation={SIGNIN_MUTATION}
+      variables={inputs}
+      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+    >
+      {(signIn, { loading }) => (
         <Card className={classes.card} raised>
           {loading ? (
             <div>Loading...</div>
@@ -66,13 +98,7 @@ function SignIn() {
                 className={classes.cardContent}
               />
               <CardContent className={classes.cardContent}>
-                <form
-                  onSubmit={e => {
-                    e.preventDefault();
-                    console.log('asdf');
-                    signIn();
-                  }}
-                >
+                <form onSubmit={handleSignIn(signIn)}>
                   <TextField
                     label="Username"
                     type="text"
@@ -81,6 +107,9 @@ function SignIn() {
                     margin="normal"
                     fullWidth
                     InputProps={{ required: true }}
+                    helperText={signInErrors.username || false}
+                    FormHelperTextProps={{ error: true }}
+                    error={!!signInErrors.username}
                   />
                   <TextField
                     label="Password"
@@ -102,6 +131,9 @@ function SignIn() {
                         </InputAdornment>
                       ),
                     }}
+                    helperText={signInErrors.password || false}
+                    FormHelperTextProps={{ error: true }}
+                    error={!!signInErrors.password}
                   />
                   <CardActions>
                     <Button
