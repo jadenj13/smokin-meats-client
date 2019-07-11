@@ -15,7 +15,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Logo from './Logo';
 import User from './User';
 
@@ -55,10 +54,10 @@ const useStyles = makeStyles(theme => ({
     width: 240,
   },
   drawerHeader: {
+    ...theme.mixins.toolbar,
     display: 'flex',
     alignItems: 'center',
     padding: '0 8px',
-    ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
   },
   drawerPaper: {
@@ -177,7 +176,7 @@ const Header = () => {
                   </Link>
                 ))}
                 {currentUser ? (
-                  <Link href="/sign-in">
+                  <Link href="/account">
                     <Typography
                       variant="h5"
                       component="a"
@@ -187,7 +186,7 @@ const Header = () => {
                     </Typography>
                   </Link>
                 ) : (
-                  <Link href="/account">
+                  <Link href="/sign-in">
                     <Typography
                       variant="h5"
                       component="a"

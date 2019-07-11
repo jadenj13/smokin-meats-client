@@ -23,6 +23,7 @@ class MyApp extends App {
       <Container>
         <Head>
           <link rel="shortcut icon" href="/static/favicon.ico" />
+          <link rel="stylesheet" type="text/css" href="/static/index.css" />
           <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
           <title>Let's Get Smokin'</title>
         </Head>
